@@ -90,6 +90,13 @@
     firefox
   ];
 
+  programs.nh = {
+    enable = true;
+    flake = "/etc/nixos";
+  };
+
+  programs.git.enable = true;
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
