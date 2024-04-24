@@ -30,6 +30,7 @@
             description = "AsriFox";
             extraGroups = [ "networkmanager" "wheel" ];
           };
+          programs.hyprland.enable = true;
         }
 
         # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
@@ -68,6 +69,23 @@
             (hmSettings "asrifox")
             ./modules/stylix.nix
             ./modules/cli-tools.nix
+            {
+              imports = [
+                ./modules/hyprland.nix
+              ];
+              hyprland = {
+                enable = true;
+                monitors = [
+                  {
+                    name = "DSI-1";
+                    scale = 2;
+                    extra = [ "transform,3" ];
+                    workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
+                    wallpaper = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
+                  }
+                ];
+              };
+            }
           ];
           extraSpecialArgs = { inherit inputs; };
         };
