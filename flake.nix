@@ -8,11 +8,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix.url = "github:danth/stylix";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs: 
   let
     system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
   in {
     nixosConfigurations.minibook = nixpkgs.lib.nixosSystem {
       inherit system;
@@ -28,13 +31,25 @@
             extraGroups = [ "networkmanager" "wheel" ];
           };
         }
+        stylix.nixosModules.stylix
+        {
+          stylix = {
+            image = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
+            base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+            fonts = {
+              monospace = {
+                package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
+                name = "FiraCode Nerd Font";
+              };
+            };
+          };
+        }
       ];
     };
       
 
     homeConfigurations = 
       let
-        pkgs = nixpkgs.legacyPackages.${system};
         hmSettings = username: {
           home = {
             inherit username;
@@ -51,6 +66,7 @@
             (hmSettings "asrifox")
             ./modules/cli-tools.nix
           ];
+          extraSpecialArgs = { inherit inputs; };
         };
       };
   };
