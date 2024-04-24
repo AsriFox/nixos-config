@@ -16,6 +16,11 @@
     enable = true;
     userName = "AsriFox";
     userEmail = "asrifox@yandex.ru";
+    extraConfig = {
+      credential = {
+        helper = "store";
+      };
+    };
   };
 
   programs.fish = {
