@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ lib, pkgs, config, ... }:
 {
   home.packages = with pkgs; [
     wl-clipboard
@@ -37,11 +37,11 @@
 
   programs.kitty = {
     enable = true;
-    font.name = "FiraCode Nerd Font";
-    font.size = 12;
+    #font.name = "FiraCode Nerd Font";
+    #font.size = 12;
     shellIntegration.enableFishIntegration = true;
     settings = {
-      background_opacity = "0.75";
+      background_opacity = lib.mkForce "0.75";
       shell = "fish";
       editor = "nvim";
       clipboard_max_size = "64";

@@ -31,19 +31,21 @@
             extraGroups = [ "networkmanager" "wheel" ];
           };
         }
-        stylix.nixosModules.stylix
-        {
-          stylix = {
-            image = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
-            base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-            fonts = {
-              monospace = {
-                package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
-                name = "FiraCode Nerd Font";
-              };
-            };
-          };
-        }
+
+        # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
+        #stylix.nixosModules.stylix
+        #{
+        #  stylix = {
+        #    image = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
+        #    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+        #    fonts = {
+        #      monospace = {
+        #        package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
+        #        name = "FiraCode Nerd Font";
+        #      };
+        #    };
+        #  };
+        #}
       ];
     };
       
@@ -64,6 +66,7 @@
           inherit pkgs;
           modules = [
             (hmSettings "asrifox")
+            ./modules/stylix.nix
             ./modules/cli-tools.nix
           ];
           extraSpecialArgs = { inherit inputs; };
