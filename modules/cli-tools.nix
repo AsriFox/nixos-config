@@ -7,7 +7,7 @@
   ];
 
   home.sessionVariables = {
-    XCURSOR_SIZE = 24;
+    XCURSOR_SIZE = 32;
     QT_QPA_PLATFORM = "wayland";
     _JAVA_AWT_WM_NONREPARENTING = 1;
   };
@@ -37,11 +37,9 @@
 
   programs.kitty = {
     enable = true;
-    #font.name = "FiraCode Nerd Font";
-    #font.size = 12;
     shellIntegration.enableFishIntegration = true;
     settings = {
-      background_opacity = lib.mkForce "0.75";
+      background_opacity = lib.mkForce "0.9";
       shell = "fish";
       editor = "nvim";
       clipboard_max_size = "64";

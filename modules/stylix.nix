@@ -15,6 +15,11 @@
         package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
         name = "FiraCode Nerd Font";
       };
+      sansSerif = {
+        package = pkgs.fira;
+        name = "Fira Sans";
+      };
+      serif = config.stylix.fonts.sansSerif;
     };
   };
 }
