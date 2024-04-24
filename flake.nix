@@ -10,6 +10,12 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprgrass = {
+       url = "github:horriblename/hyprgrass";
+       inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs: 
@@ -23,6 +29,10 @@
         ./hosts/common.nix
         ./hosts/minibook
         {
+          nix.settings = {
+            substituters = ["https://hyprland.cachix.org"];
+            trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+          };
           services.displayManager.defaultSession = "plasma";
           services.desktopManager.plasma6.enable = true;
           users.users.asrifox = {
@@ -30,7 +40,10 @@
             description = "AsriFox";
             extraGroups = [ "networkmanager" "wheel" ];
           };
-          programs.hyprland.enable = true;
+          programs.hyprland = {
+            enable = true;
+            package = inputs.hyprland.packages.${system}.hyprland;
+          };
         }
 
         # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
@@ -67,25 +80,13 @@
           inherit pkgs;
           modules = [
             (hmSettings "asrifox")
+            {
+              services.network-manager-applet.enable = true;
+            }
             ./modules/stylix.nix
             ./modules/cli-tools.nix
-            {
-              imports = [
-                ./modules/hyprland.nix
-              ];
-              hyprland = {
-                enable = true;
-                monitors = [
-                  {
-                    name = "DSI-1";
-                    scale = 2;
-                    extra = [ "transform,3" ];
-                    workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
-                    wallpaper = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
-                  }
-                ];
-              };
-            }
+            ./modules/hyprland.nix
+            ./hosts/minibook/hyprland.nix
           ];
           extraSpecialArgs = { inherit inputs; };
         };
