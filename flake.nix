@@ -107,6 +107,7 @@
             ./modules/cli-tools.nix
             ./modules/hyprland.nix
             ./hosts/minibook/hyprland.nix
+            ./modules/wlogout.nix
             ./modules/anyrun.nix
           ];
           extraSpecialArgs = { inherit inputs; };

@@ -66,6 +66,10 @@ in with lib; {
             type = str;
             default = "anyrun -c ~/.config/anyrun/cliphist | cliphist decode | wl-copy";
           };
+          powermenu = mkOption {
+            type = str;
+            default = "wlogout -p layer-shell -b 5 -c 10";
+          };
         };
       };
       default = { };
@@ -172,6 +176,7 @@ in with lib; {
           "$super, E, exec, ${files}"
           "$super, B, exec, ${web}"
         ]) ++ (with defaultPrograms; [
+          "$super, Escape, exec, ${powermenu}"
           ", Print, exec, ${screenshot.region}"
           "ALT, Print, exec, ${screenshot.window}"
           "SHIFT, Print, exec, ${screenshot.monitor}"
