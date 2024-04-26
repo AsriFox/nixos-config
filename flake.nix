@@ -16,6 +16,12 @@
       url = "github:horriblename/hyprgrass";
       inputs.hyprland.follows = "hyprland";
     };
+    
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    anyrun-cliphist.url = "github:benoitlouy/anyrun-cliphist";
   };
 
   outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs:
@@ -101,6 +107,7 @@
             ./modules/cli-tools.nix
             ./modules/hyprland.nix
             ./hosts/minibook/hyprland.nix
+            ./modules/anyrun.nix
           ];
           extraSpecialArgs = { inherit inputs; };
         };
