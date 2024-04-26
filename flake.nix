@@ -16,6 +16,8 @@
       url = "github:horriblename/hyprgrass";
       inputs.hyprland.follows = "hyprland";
     };
+    hypridle.url = "github:hyprwm/hypridle";
+    hyprlock.url = "github:hyprwm/hyprlock";
     
     anyrun = {
       url = "github:anyrun-org/anyrun";
@@ -107,6 +109,7 @@
             ./modules/cli-tools.nix
             ./modules/hyprland.nix
             ./hosts/minibook/hyprland.nix
+            ./modules/hyprlock.nix
             ./modules/wlogout.nix
             ./modules/anyrun.nix
           ];
