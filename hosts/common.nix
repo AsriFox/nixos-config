@@ -35,10 +35,12 @@
     theme = "${import ../modules/sddm-theme.nix { inherit pkgs; }}";
   };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.polkit.enable = true;
+  security.pam.services.sddm.enableKwallet = true;
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;

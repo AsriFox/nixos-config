@@ -11,6 +11,11 @@ let
   monitorConf = { name, mode, scale, extra, ... }:
     let extras = lib.concatStringsSep "," extra;
     in "${name}, ${mode}, auto, ${builtins.toString scale}, ${extras}";
+  kwallet-init = builtins.concatStringsSep " && " [
+    "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
+    "${pkgs.kdePackages.kwallet}/bin/kwallet-query --list-entries --folder 'Network Management' kdewallet"
+    "${pkgs.networkmanagerapplet}/bin/nm-applet"
+  ];
 in with lib; {
   options.hyprland = with types; {
     enable = mkEnableOption "Hyprland config";
@@ -62,7 +67,13 @@ in with lib; {
   };
 
   config = mkIf config.hyprland.enable {
-    home.packages = with pkgs; [ hyprpaper hyprshot ];
+    home.packages = with pkgs; [
+      hyprpaper
+      hyprshot
+      kdePackages.kwallet
+      kdePackages.kwallet-pam
+      networkmanagerapplet
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -84,6 +95,7 @@ in with lib; {
         ];
 
         exec-once = [ config.hyprland.programs.polkit "hyprpaper" ];
+          kwallet-init
 
         input = {
           kb_layout = "us,ru(typewriter)";
