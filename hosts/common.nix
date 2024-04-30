@@ -32,6 +32,7 @@
       enable = true;
       compositor = lib.mkForce "weston";
     };
+    theme = "${import ../modules/sddm-theme.nix { inherit pkgs; }}";
   };
 
   sound.enable = true;
