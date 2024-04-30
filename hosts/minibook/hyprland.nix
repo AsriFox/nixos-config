@@ -1,35 +1,26 @@
-{ lib, pkgs, config, inputs, ... }:
-{
-  imports = [
-    inputs.hyprland.homeManagerModules.default
-  ];
-  
+{ pkgs, inputs, ... }: {
+  imports = [ inputs.hyprland.homeManagerModules.default ];
+
   # Common configuration; see modules/hyprland.nix
   hyprland = {
     enable = true;
-    monitors = [
-      {
-        name = "DSI-1";
-        scale = 2;
-        extra = [ "transform,3" ];
-        workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
-        wallpaper = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
-      }
-    ];
+    monitors = [{
+      name = "DSI-1";
+      scale = 2;
+      extra = [ "transform,3" ];
+      workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
+      wallpaper = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
+    }];
   };
 
   # Touchscreen
   wayland.windowManager.hyprland = {
-    plugins = with inputs; [
-      hyprgrass.packages.${pkgs.system}.default
-    ];
+    plugins = with inputs; [ hyprgrass.packages.${pkgs.system}.default ];
     settings = {
-      device = [
-        {
-          name = "goodix-capacitive-touchscreen-1";
-          transform = "3";
-        }
-      ];
+      device = [{
+        name = "goodix-capacitive-touchscreen-1";
+        transform = "3";
+      }];
       gestures = {
         workspace_swipe = true;
         workspace_swipe_touch = true;

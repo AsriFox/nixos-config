@@ -1,4 +1,4 @@
-{ lib, pkgs, config, inputs, ... }:
+{ lib, pkgs, config, ... }:
 let
   defaultPrograms = {
     screenshot = rec {
@@ -18,9 +18,18 @@ in with lib; {
       type = listOf (submodule {
         options = {
           name = mkOption { type = str; };
-          mode = mkOption { type = str; default = "preferred"; };
-          scale = mkOption { type = either float int; default = 1; };
-          extra = mkOption { type = listOf str; default = []; };
+          mode = mkOption {
+            type = str;
+            default = "preferred";
+          };
+          scale = mkOption {
+            type = either float int;
+            default = 1;
+          };
+          extra = mkOption {
+            type = listOf str;
+            default = [ ];
+          };
           workspaces = mkOption { type = listOf str; };
           wallpaper = mkOption { type = str; };
         };
@@ -29,16 +38,26 @@ in with lib; {
     programs = mkOption {
       type = submodule {
         options = {
-          term = mkOption { type = str; default = "kitty"; };
-          files = mkOption { type = str; default = "dolphin"; };
-          web = mkOption { type = str; default = "firefox"; };
+          term = mkOption {
+            type = str;
+            default = "kitty";
+          };
+          files = mkOption {
+            type = str;
+            default = "dolphin";
+          };
+          web = mkOption {
+            type = str;
+            default = "firefox";
+          };
           polkit = mkOption {
             type = str;
-            default = "${pkgs.polkit-kde-agent.outPath}/libexec/polkit-kde-authentication-agent-1";
+            default =
+              "${pkgs.polkit-kde-agent.outPath}/libexec/polkit-kde-authentication-agent-1";
           };
         };
       };
-      default = {};
+      default = { };
     };
   };
 
@@ -50,11 +69,12 @@ in with lib; {
       settings = {
         env = [ "QT_QPA_PLATFORMTHEME,qt5ct" ];
 
-        monitor =
-          (map monitorConf config.hyprland.monitors)
+        monitor = (map monitorConf config.hyprland.monitors)
           ++ [ ", preferred, auto, 1" ];
 
-        workspace = concatMap ({ name, workspaces, ... }: map (w: "${w}, ${name}") workspaces) config.hyprland.monitors;
+        workspace = concatMap
+          ({ name, workspaces, ... }: map (w: "${w}, ${name}") workspaces)
+          config.hyprland.monitors;
 
         windowrule = [ "float, ^(.*polkit.*)$" ];
         windowrulev2 = [
@@ -63,10 +83,7 @@ in with lib; {
           "dimaround, class:^(jetbrains-*)$"
         ];
 
-        exec-once = [
-          config.hyprland.programs.polkit
-          "hyprpaper"
-        ];
+        exec-once = [ config.hyprland.programs.polkit "hyprpaper" ];
 
         input = {
           kb_layout = "us,ru(typewriter)";
@@ -129,33 +146,29 @@ in with lib; {
           "$super CTRL, right, swapwindow, r"
           "$super CTRL, up, swapwindow, u"
           "$super CTRL, down, swapwindow, d"
-        ]
-        ++ (with config.hyprland.programs; [
+        ] ++ (with config.hyprland.programs; [
           "$super, T, exec, ${term}"
           "$super, E, exec, ${files}"
           "$super, B, exec, ${web}"
-        ])
-        ++ (with defaultPrograms; [
+        ]) ++ (with defaultPrograms; [
           ", Print, exec, ${screenshot.region}"
           "ALT, Print, exec, ${screenshot.window}"
           "SHIFT, Print, exec, ${screenshot.monitor}"
-        ])
-        ++ (builtins.concatMap
-            (n: ["$super, ${n}, workspace, ${n}" "$super SHIFT, ${n}, movetoworkspace, ${n}"])
-            (builtins.concatLists (map ({ workspaces, ... }: workspaces) config.hyprland.monitors)));
+        ]) ++ (builtins.concatMap (n: [
+          "$super, ${n}, workspace, ${n}"
+          "$super SHIFT, ${n}, movetoworkspace, ${n}"
+        ]) (builtins.concatLists
+          (map ({ workspaces, ... }: workspaces) config.hyprland.monitors)));
 
-        bindm = [
-          "$super, mouse:272, movewindow" "$super, mouse:273, resizewindow"
-        ];
+        bindm =
+          [ "$super, mouse:272, movewindow" "$super, mouse:273, resizewindow" ];
       };
     };
 
-    xdg.configFile."hypr/hyprpaper.conf".text =
-      builtins.concatStringsSep "\n" (builtins.concatMap
-        ({ name, wallpaper, ... }: [
-          "preload = ${wallpaper}"
-          "wallpaper = ${name}, ${wallpaper}"
-        ])
-        config.hyprland.monitors);
- };
+    xdg.configFile."hypr/hyprpaper.conf".text = builtins.concatStringsSep "\n"
+      (builtins.concatMap ({ name, wallpaper, ... }: [
+        "preload = ${wallpaper}"
+        "wallpaper = ${name}, ${wallpaper}"
+      ]) config.hyprland.monitors);
+  };
 }

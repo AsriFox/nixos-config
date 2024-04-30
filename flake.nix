@@ -13,59 +13,55 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
     hyprgrass = {
-       url = "github:horriblename/hyprgrass";
-       inputs.hyprland.follows = "hyprland";
+      url = "github:horriblename/hyprgrass";
+      inputs.hyprland.follows = "hyprland";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs: 
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    nixosConfigurations.minibook = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [
-        ./hosts/common.nix
-        ./hosts/minibook
-        {
-          nix.settings = {
-            substituters = ["https://hyprland.cachix.org"];
-            trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-          };
-          services.displayManager.defaultSession = "plasma";
-          services.desktopManager.plasma6.enable = true;
-          users.users.asrifox = {
-            isNormalUser = true;
-            description = "AsriFox";
-            extraGroups = [ "networkmanager" "wheel" ];
-          };
-          programs.hyprland = {
-            enable = true;
-            package = inputs.hyprland.packages.${system}.hyprland;
-          };
-        }
+  outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      nixosConfigurations.minibook = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/common.nix
+          ./hosts/minibook
+          {
+            services.displayManager.defaultSession = "plasma";
+            services.desktopManager.plasma6.enable = true;
+            users.users.asrifox = {
+              isNormalUser = true;
+              description = "AsriFox";
+              extraGroups = [ "networkmanager" "wheel" ];
+            };
+            programs.hyprland = {
+              enable = true;
+              package = inputs.hyprland.packages.${system}.hyprland;
+            };
+          }
 
-        # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
-        #stylix.nixosModules.stylix
-        #{
-        #  stylix = {
-        #    image = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
-        #    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-        #    fonts = {
-        #      monospace = {
-        #        package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
-        #        name = "FiraCode Nerd Font";
-        #      };
-        #    };
-        #  };
-        #}
-      ];
-    };
-      
+          # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
+          #{
+          #  imports = [ stylix.nixosModules.stylix ];
+          #  stylix = {
+          #    image =
+          #      "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
+          #    base16Scheme =
+          #      "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
+          #    fonts = {
+          #      monospace = {
+          #        package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
+          #        name = "FiraCode Nerd Font";
+          #      };
+          #    };
+          #  };
+          #}
+        ];
+      };
 
-    homeConfigurations = 
-      let
+      homeConfigurations = let
         hmSettings = username: {
           home = {
             inherit username;
@@ -80,9 +76,7 @@
           inherit pkgs;
           modules = [
             (hmSettings "asrifox")
-            {
-              services.network-manager-applet.enable = true;
-            }
+            { services.network-manager-applet.enable = true; }
             ./modules/stylix.nix
             ./modules/cli-tools.nix
             ./modules/hyprland.nix
@@ -91,5 +85,5 @@
           extraSpecialArgs = { inherit inputs; };
         };
       };
-  };
+    };
 }

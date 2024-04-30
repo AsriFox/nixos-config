@@ -1,10 +1,5 @@
-{ lib, pkgs, config, ... }:
-{
-  home.packages = with pkgs; [
-    wl-clipboard
-    gcc
-    nixfmt
-  ];
+{ lib, pkgs, ... }: {
+  home.packages = with pkgs; [ wl-clipboard gcc nixfmt ];
 
   home.sessionVariables = {
     XCURSOR_SIZE = 32;
@@ -16,11 +11,7 @@
     enable = true;
     userName = "AsriFox";
     userEmail = "asrifox@yandex.ru";
-    extraConfig = {
-      credential = {
-        helper = "store";
-      };
-    };
+    extraConfig = { credential = { helper = "store"; }; };
   };
 
   programs.fish = {
@@ -33,9 +24,7 @@
 
   programs.bat = {
     enable = true;
-    config = {
-      pager = "${pkgs.less}/bin/less -FR";
-    };
+    config = { pager = "${pkgs.less}/bin/less -FR"; };
   };
 
   programs.lazygit.enable = true;

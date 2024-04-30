@@ -1,5 +1,12 @@
-{ lib, config, pkgs, ... }:
-{
+{ lib, pkgs, ... }: {
+  nix.settings = {
+    experimental-features = [ "flakes" "nix-command" ];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys =
+      [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  };
+  nixpkgs.config.allowUnfree = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -38,18 +45,13 @@
     pulse.enable = true;
   };
 
-  nix.settings.experimental-features = [ "flakes" "nix-command" ];
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search <package>
   environment.systemPackages = with pkgs; [
     weston
     kitty
     fish
-    (nerdfonts.override {
-      fonts = [ "FiraCode" ];
-    })
+    (nerdfonts.override { fonts = [ "FiraCode" ]; })
     firefox
   ];
 
