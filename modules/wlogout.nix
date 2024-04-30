@@ -38,7 +38,8 @@ in {
   programs.wlogout = {
     enable = true;
     inherit layout;
-    style = with palette; ''
+    style = with palette;
+      ''
         * {
           background-image: none;
         }

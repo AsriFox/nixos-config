@@ -1,7 +1,6 @@
 { lib, pkgs, config, ... }:
 let
-
-    defaultPrograms = {
+  defaultPrograms = {
     screenshot = rec {
       cmd = "hyprshot";
       window = "${cmd} -m window";
@@ -61,10 +60,14 @@ in with lib; {
             default =
               "${pkgs.polkit-kde-agent.outPath}/libexec/polkit-kde-authentication-agent-1";
           };
-          launcher = mkOption { type = str; default = "anyrun"; };
+          launcher = mkOption {
+            type = str;
+            default = "anyrun";
+          };
           clipboard-menu = mkOption {
             type = str;
-            default = "anyrun -c ~/.config/anyrun/cliphist | cliphist decode | wl-copy";
+            default =
+              "anyrun -c ~/.config/anyrun/cliphist | cliphist decode | wl-copy";
           };
           powermenu = mkOption {
             type = str;
@@ -104,11 +107,8 @@ in with lib; {
           "dimaround, class:^(jetbrains-*)$"
         ];
 
-        exec-once = [
-          config.hyprland.programs.polkit
-          "hyprpaper"
-          kwallet-init
-        ];
+        exec-once =
+          [ config.hyprland.programs.polkit "hyprpaper" kwallet-init ];
 
         input = {
           kb_layout = "us,ru(typewriter)";
@@ -185,7 +185,8 @@ in with lib; {
           "$super SHIFT, ${n}, movetoworkspace, ${n}"
         ]) (builtins.concatLists
           (map ({ workspaces, ... }: workspaces) config.hyprland.monitors)));
-        bindr = [ "SUPER, SUPER_L, exec, ${config.hyprland.programs.launcher}" ];
+        bindr =
+          [ "SUPER, SUPER_L, exec, ${config.hyprland.programs.launcher}" ];
 
         bindm =
           [ "$super, mouse:272, movewindow" "$super, mouse:273, resizewindow" ];
