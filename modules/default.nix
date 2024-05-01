@@ -1,7 +1,7 @@
 { ... }: {
   imports = [
     ./cli-tools.nix
-    ./stylix.nix
+    ./catppuccin.nix
     ./hyprland.nix
     ./hypridle.nix
     ./hyprlock.nix

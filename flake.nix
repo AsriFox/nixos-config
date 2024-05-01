@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url = "github:danth/stylix";
+    catppuccin.url = "github:catppuccin/nix";
 
     hyprland.url = "github:hyprwm/Hyprland";
     hyprgrass = {
@@ -26,7 +26,7 @@
     anyrun-cliphist.url = "github:benoitlouy/anyrun-cliphist";
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -52,23 +52,6 @@
                 package = inputs.hyprland.packages.${system}.hyprland;
               };
             }
-
-            # Waiting for https://github.com/danth/stylix/issues/51 and https://github.com/danth/stylix/issues/74
-            #{
-            #  imports = [ stylix.nixosModules.stylix ];
-            #  stylix = {
-            #    image =
-            #      "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
-            #    base16Scheme =
-            #      "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
-            #    fonts = {
-            #      monospace = {
-            #        package = pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; };
-            #        name = "FiraCode Nerd Font";
-            #      };
-            #    };
-            #  };
-            #}
           ];
         };
         tower-nix = nixpkgs.lib.nixosSystem {
@@ -107,13 +90,28 @@
             { services.network-manager-applet.enable = true; }
             ./modules
             ./hosts/minibook/hyprland.nix
+            {
+              catppuccin = {
+                enable = true;
+                flavour = "macchiato";
+              };
+            }
           ];
           extraSpecialArgs = { inherit inputs; };
         };
         "asrifox@tower-nix" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules =
-            [ (hmSettings "asrifox") ./modules ./hosts/tower-nix/hyprland.nix ];
+          modules = [
+            (hmSettings "asrifox")
+            ./modules
+            ./hosts/tower-nix/hyprland.nix
+            {
+              catppuccin = {
+                enable = true;
+                flavour = "macchiato";
+              };
+            }
+          ];
           extraSpecialArgs = { inherit inputs; };
         };
       };
