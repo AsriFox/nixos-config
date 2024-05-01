@@ -8,14 +8,15 @@ let
       region = "${cmd} -m region";
     };
   };
-  monitorConf = { name, mode, scale, extra, ... }:
+  monitorConf = { name, mode, offset, scale, extra, ... }:
     let extras = lib.concatStringsSep "," extra;
-    in "${name}, ${mode}, auto, ${builtins.toString scale}, ${extras}";
+    in "${name}, ${mode}, ${offset}, ${builtins.toString scale}, ${extras}";
   kwallet-init = builtins.concatStringsSep " && " [
     "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
     "${pkgs.kdePackages.kwallet}/bin/kwallet-query --list-entries --folder 'Network Management' kdewallet"
     "${pkgs.networkmanagerapplet}/bin/nm-applet"
   ];
+  cfg = config.hyprland;
 in with lib; {
   options.hyprland = with types; {
     enable = mkEnableOption "Hyprland config";
@@ -26,6 +27,10 @@ in with lib; {
           mode = mkOption {
             type = str;
             default = "preferred";
+          };
+          offset = mkOption {
+            type = str;
+            default = "auto";
           };
           scale = mkOption {
             type = either float int;
@@ -79,7 +84,7 @@ in with lib; {
     };
   };
 
-  config = mkIf config.hyprland.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       hyprpaper
       hyprshot
@@ -93,12 +98,11 @@ in with lib; {
       settings = {
         env = [ "QT_QPA_PLATFORMTHEME,qt5ct" ];
 
-        monitor = (map monitorConf config.hyprland.monitors)
-          ++ [ ", preferred, auto, 1" ];
+        monitor = (map monitorConf cfg.monitors) ++ [ ", preferred, auto, 1" ];
 
         workspace = concatMap
           ({ name, workspaces, ... }: map (w: "${w}, ${name}") workspaces)
-          config.hyprland.monitors;
+          cfg.monitors;
 
         windowrule = [ "float, ^(.*polkit.*)$" ];
         windowrulev2 = [
@@ -107,8 +111,7 @@ in with lib; {
           "dimaround, class:^(jetbrains-*)$"
         ];
 
-        exec-once =
-          [ config.hyprland.programs.polkit "hyprpaper" kwallet-init ];
+        exec-once = [ cfg.programs.polkit "hyprpaper" kwallet-init ];
 
         input = {
           kb_layout = "us,ru(typewriter)";
@@ -171,12 +174,12 @@ in with lib; {
           "$super CTRL, right, swapwindow, r"
           "$super CTRL, up, swapwindow, u"
           "$super CTRL, down, swapwindow, d"
-        ] ++ (with config.hyprland.programs; [
+        ] ++ (with cfg.programs; [
           "$super, T, exec, ${term}"
           "$super, E, exec, ${files}"
           "$super, B, exec, ${web}"
-        ]) ++ (with defaultPrograms; [
           "$super, Escape, exec, ${powermenu}"
+        ]) ++ (with defaultPrograms; [
           ", Print, exec, ${screenshot.region}"
           "ALT, Print, exec, ${screenshot.window}"
           "SHIFT, Print, exec, ${screenshot.monitor}"
@@ -184,9 +187,8 @@ in with lib; {
           "$super, ${n}, workspace, ${n}"
           "$super SHIFT, ${n}, movetoworkspace, ${n}"
         ]) (builtins.concatLists
-          (map ({ workspaces, ... }: workspaces) config.hyprland.monitors)));
-        bindr =
-          [ "SUPER, SUPER_L, exec, ${config.hyprland.programs.launcher}" ];
+          (map ({ workspaces, ... }: workspaces) cfg.monitors)));
+        bindr = [ "SUPER, SUPER_L, exec, ${cfg.programs.launcher}" ];
 
         bindm =
           [ "$super, mouse:272, movewindow" "$super, mouse:273, resizewindow" ];
@@ -197,6 +199,6 @@ in with lib; {
       (builtins.concatMap ({ name, wallpaper, ... }: [
         "preload = ${wallpaper}"
         "wallpaper = ${name}, ${wallpaper}"
-      ]) config.hyprland.monitors);
+      ]) cfg.monitors);
   };
 }
