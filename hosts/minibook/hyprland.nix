@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }: {
   imports = [ inputs.hyprland.homeManagerModules.default ];
 
-  # Common configuration; see modules/hyprland.nix
+  # modules/hyprland.nix
   hyprland = {
     enable = true;
     monitors = [{
@@ -12,6 +12,18 @@
       wallpaper = "/home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg";
     }];
   };
+
+  # modules/hypridle.nix
+  hypridle = {
+    enable = true;
+    lockTimeout = 160;
+    dpmsTimeout = 150;
+    suspendTimeout = 600;
+    hyprctl =
+      "${inputs.hyprland.packages.${pkgs.system}.hyprland.outPath}/bin/hyprctl";
+    lockCmd = null; # Disabled until hyprlock is fixed
+  };
+  hyprlock.enable = false;
 
   # Touchscreen
   wayland.windowManager.hyprland = {
