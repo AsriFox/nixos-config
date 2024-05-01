@@ -1,5 +1,5 @@
 { lib, pkgs, ... }: {
-  home.packages = with pkgs; [ wl-clipboard gcc nixfmt ];
+  home.packages = with pkgs; [ wl-clipboard neovim gcc nixfmt-classic ];
 
   home.sessionVariables = {
     XCURSOR_SIZE = 32;
@@ -17,6 +17,7 @@
   programs.fish = {
     enable = true;
     functions = {
+      nvim = "~/.nix-profile/bin/nvim -u ~/.config/nvim/init.lua $argv";
       cat = "bat --paging never --style plain $argv";
       less = "bat --paging always $argv";
     };
