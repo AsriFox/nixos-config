@@ -105,25 +105,16 @@
           modules = [
             (hmSettings "asrifox")
             { services.network-manager-applet.enable = true; }
-            ./modules/stylix.nix
-            ./modules/cli-tools.nix
-            ./modules/hyprland.nix
+            ./modules
             ./hosts/minibook/hyprland.nix
-            ./modules/hyprlock.nix
-            ./modules/wlogout.nix
-            ./modules/anyrun.nix
           ];
           extraSpecialArgs = { inherit inputs; };
         };
         "asrifox@tower-nix" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [
-            (hmSettings "asrifox")
-            ./modules/stylix.nix
-            ./modules/cli-tools.nix
-            ./modules/hyprland.nix
-            ./hosts/tower-nix/hyprland.nix
-          ];
+          modules =
+            [ (hmSettings "asrifox") ./modules ./hosts/tower-nix/hyprland.nix ];
+          extraSpecialArgs = { inherit inputs; };
         };
       };
     };
