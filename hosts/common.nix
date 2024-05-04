@@ -50,13 +50,15 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search <package>
-  environment.systemPackages = with pkgs; [
-    weston
-    kitty
-    fish
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-    firefox
-  ];
+  environment.systemPackages = with pkgs; [ weston kitty fish firefox ];
+
+  fonts = {
+    packages = [ (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
+    fontconfig = {
+      enable = true;
+      defaultFonts.monospace = [ "FiraCode Nerd Font" ];
+    };
+  };
 
   programs.nh = {
     enable = true;
