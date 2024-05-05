@@ -24,6 +24,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun-cliphist.url = "github:benoitlouy/anyrun-cliphist";
+
+    ags.url = "github:Aylur/ags";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:

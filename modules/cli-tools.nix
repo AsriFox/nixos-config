@@ -1,5 +1,5 @@
 { lib, pkgs, ... }: {
-  home.packages = with pkgs; [ wl-clipboard neovim gcc nixfmt-classic ];
+  home.packages = with pkgs; [ wl-clipboard neovim nodejs gcc nixfmt-classic ];
 
   home.sessionVariables = {
     XCURSOR_SIZE = 32;
