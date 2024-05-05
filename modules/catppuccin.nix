@@ -28,6 +28,8 @@ in {
 
     programs.bottom.catppuccin = with cfg; { inherit enable flavour; };
 
+    programs.swaylock.catppuccin = with cfg; { inherit enable flavour; };
+
     gtk = {
       enable = true;
       catppuccin = with cfg; {

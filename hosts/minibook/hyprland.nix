@@ -21,9 +21,15 @@
     suspendTimeout = 600;
     hyprctl =
       "${inputs.hyprland.packages.${pkgs.system}.hyprland.outPath}/bin/hyprctl";
-    lockCmd = null; # Disabled until hyprlock is fixed
+    lockCmd = "${pkgs.swaylock-effects.outPath}/bin/swaylock";
   };
   hyprlock.enable = false;
+
+  programs.swaylock = {
+    enable = true;
+    package = pkgs.swaylock-effects;
+    settings = { clock = true; };
+  };
 
   # Touchscreen
   wayland.windowManager.hyprland = {
