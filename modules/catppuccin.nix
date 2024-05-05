@@ -28,6 +28,14 @@ in {
 
     programs.bottom.catppuccin = with cfg; { inherit enable flavour; };
 
+    gtk = {
+      enable = true;
+      catppuccin = with cfg; {
+        inherit enable flavour;
+        accent = "lavender";
+      };
+    };
+
     qt = {
       enable = true;
       platformTheme = "qtct";
