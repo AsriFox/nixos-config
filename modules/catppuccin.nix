@@ -26,6 +26,8 @@ in {
 
     programs.starship.catppuccin = with cfg; { inherit enable flavour; };
 
+    programs.bottom.catppuccin = with cfg; { inherit enable flavour; };
+
     qt = {
       enable = true;
       platformTheme = "qtct";

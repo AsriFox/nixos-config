@@ -90,5 +90,18 @@
       };
     };
   };
+
+  programs.bottom.enable = true;
+
+  programs.hyfetch = {
+    enable = true;
+    settings = {
+      preset = "femboy";
+      mode = "rgb";
+      color_align = { mode = "horizontal"; };
+      lightness = 0.65;
+      #backend = fastfetch;
+    };
+  };
 }
 
