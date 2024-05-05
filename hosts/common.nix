@@ -38,6 +38,7 @@
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.pam.services.sddm.enableKwallet = true;
+  security.pam.services.swaylock = { };
 
   sound.enable = true;
   hardware.pulseaudio.enable = false;
