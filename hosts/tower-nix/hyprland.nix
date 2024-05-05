@@ -20,6 +20,8 @@
           wallpaper = "${wallpapersDir}/1372775.png";
         }
       ];
+    programs.powermenu =
+      "wlogout -p layer-shell -b 5 -c 10 -L 720 -R 720 -T 600 -B 600";
   };
 
   # modules/hypridle.nix
