@@ -1,8 +1,6 @@
 { lib, pkgs, config, inputs, ... }:
 let cfg = config.hypridle;
 in with lib; {
-  imports = [ inputs.hypridle.homeManagerModules.hypridle ];
-
   options.hypridle = with types; {
     enable = mkEnableOption "Hypridle config";
     lockCmd = mkOption {
@@ -29,20 +27,24 @@ in with lib; {
 
   config.services.hypridle = mkIf cfg.enable {
     enable = true;
-    lockCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
-    beforeSleepCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
-    listeners = (if cfg.lockCmd != null then [{
-      timeout = cfg.lockTimeout;
-      onTimeout = "loginctl lock-session";
-    }] else
-      [ ]) ++ (if cfg.hyprctl != null then [{
-        timeout = cfg.dpmsTimeout;
-        onTimeout = "${cfg.hyprctl} dispatch dpms off";
-        onResume = "${cfg.hyprctl} dispatch dpms on";
+    settings = {
+      general = {
+        lockCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
+        beforeSleepCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
+      };
+      listener = (if cfg.lockCmd != null then [{
+        timeout = cfg.lockTimeout;
+        onTimeout = "loginctl lock-session";
       }] else
-        [ ]) ++ [{
-          timeout = cfg.suspendTimeout;
-          onTimeout = "systemctl suspend";
-        }];
+        [ ]) ++ (if cfg.hyprctl != null then [{
+          timeout = cfg.dpmsTimeout;
+          onTimeout = "${cfg.hyprctl} dispatch dpms off";
+          onResume = "${cfg.hyprctl} dispatch dpms on";
+        }] else
+          [ ]) ++ [{
+            timeout = cfg.suspendTimeout;
+            onTimeout = "systemctl suspend";
+          }];
+    };
   };
 }

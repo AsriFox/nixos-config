@@ -11,13 +11,15 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+    };
     hyprgrass = {
       url = "github:horriblename/hyprgrass";
       inputs.hyprland.follows = "hyprland";
     };
-    hypridle.url = "github:hyprwm/hypridle";
-    hyprlock.url = "github:hyprwm/hyprlock";
 
     anyrun = {
       url = "github:anyrun-org/anyrun";

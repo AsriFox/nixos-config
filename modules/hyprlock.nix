@@ -8,8 +8,6 @@ let
   };
   cfg = config.hyprlock;
 in with lib; {
-  imports = [ inputs.hyprlock.homeManagerModules.hyprlock ];
-
   options.hyprlock = with types; {
     enable = mkEnableOption "Hyprlock config";
     promptMonitors = mkOption {
@@ -20,40 +18,40 @@ in with lib; {
 
   config.programs.hyprlock = mkIf cfg.enable {
     enable = true;
-    package = inputs.hyprlock.packages.${pkgs.system}.hyprlock;
+    settings = {
+      background = [{
+        path = "screenshot";
+        blur_size = 4;
+        blur_passes = 2;
+      }];
 
-    backgrounds = [{
-      path = "screenshot";
-      blur_size = 4;
-      blur_passes = 2;
-    }];
+      input-field = map (monitor:
+        with palette; {
+          monitor = mkIf (monitor != null) monitor;
+          size = {
+            width = 210;
+            height = 40;
+          };
+          outline_thickness = 2;
+          outer_color = "0xff${lavender}";
+          inner_color = "0xff${base}";
+          font_color = "0xff${text}";
+        }) (if builtins.length cfg.promptMonitors > 0 then
+          cfg.promptMonitors
+        else
+          [ null ]);
 
-    input-fields = map (monitor:
-      with palette; {
-        monitor = mkIf (monitor != null) monitor;
-        size = {
-          width = 210;
-          height = 40;
-        };
-        outline_thickness = 2;
-        outer_color = "0xff${lavender}";
-        inner_color = "0xff${base}";
-        font_color = "0xff${text}";
-      }) (if builtins.length cfg.promptMonitors > 0 then
-        cfg.promptMonitors
-      else
-        [ null ]);
-
-    labels = map (monitor:
-      with palette; {
-        monitor = mkIf (monitor != null) monitor;
-        text = "$TIME";
-        color = "0xff${text}";
-        font_size = 36;
-        font_family = "monospace";
-      }) (if builtins.length cfg.promptMonitors > 0 then
-        cfg.promptMonitors
-      else
-        [ null ]);
+      label = map (monitor:
+        with palette; {
+          monitor = mkIf (monitor != null) monitor;
+          text = "$TIME";
+          color = "0xff${text}";
+          font_size = 36;
+          font_family = "monospace";
+        }) (if builtins.length cfg.promptMonitors > 0 then
+          cfg.promptMonitors
+        else
+          [ null ]);
+    };
   };
 }
