@@ -97,7 +97,7 @@
             {
               catppuccin = {
                 enable = true;
-                flavour = "macchiato";
+                flavor = "macchiato";
               };
             }
           ];
@@ -112,7 +112,7 @@
             {
               catppuccin = {
                 enable = true;
-                flavour = "macchiato";
+                flavor = "macchiato";
               };
             }
           ];
