@@ -30,14 +30,6 @@ in {
 
     programs.swaylock.catppuccin = with cfg; { inherit enable flavor; };
 
-    gtk = {
-      enable = true;
-      catppuccin = with cfg; {
-        inherit enable flavor;
-        accent = "lavender";
-      };
-    };
-
     qt = {
       enable = true;
       platformTheme = "qtct";
