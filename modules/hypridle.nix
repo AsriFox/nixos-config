@@ -29,21 +29,21 @@ in with lib; {
     enable = true;
     settings = {
       general = {
-        lockCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
-        beforeSleepCmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
+        lock_cmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
+        before_sleep_cmd = mkIf (cfg.lockCmd != null) cfg.lockCmd;
       };
       listener = (if cfg.lockCmd != null then [{
         timeout = cfg.lockTimeout;
-        onTimeout = "loginctl lock-session";
+        on-timeout = "loginctl lock-session";
       }] else
         [ ]) ++ (if cfg.hyprctl != null then [{
           timeout = cfg.dpmsTimeout;
-          onTimeout = "${cfg.hyprctl} dispatch dpms off";
-          onResume = "${cfg.hyprctl} dispatch dpms on";
+          on-timeout = "${cfg.hyprctl} dispatch dpms off";
+          on-resume = "${cfg.hyprctl} dispatch dpms on";
         }] else
           [ ]) ++ [{
             timeout = cfg.suspendTimeout;
-            onTimeout = "systemctl suspend";
+            on-timeout = "systemctl suspend";
           }];
     };
   };
