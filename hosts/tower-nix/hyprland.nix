@@ -29,27 +29,12 @@
     enable = true;
     hyprctl =
       "${inputs.hyprland.packages.${pkgs.system}.hyprland.outPath}/bin/hyprctl";
-    lockCmd = "${pkgs.swaylock-effects.outPath}/bin/swaylock";
-    # lockCmd = "${
-    #     inputs.hyprlock.packages.${pkgs.system}.hyprlock.outPath
-    #   }/bin/hyprlock";
+    lockCmd = "${pkgs.hyprlock}/bin/hyprlock";
   };
 
   # modules/hyprlock.nix
-  # https://github.com/hyprwm/Hyprland/issues/5816
-  # hyprlock = {
-  #   enable = true;
-  #   promptMonitors = [ "DP-1" ];
-  # };
-
-  programs.swaylock = {
+  hyprlock = {
     enable = true;
-    package = pkgs.swaylock-effects;
-    settings = {
-      screenshots = true;
-      clock = true;
-      effect-blur = "7x5";
-      fade-in = 3;
-    };
+    promptMonitors = [ "DP-1" ];
   };
 }

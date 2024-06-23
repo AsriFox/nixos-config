@@ -28,10 +28,8 @@ in with lib; {
       input-field = map (monitor:
         with palette; {
           monitor = mkIf (monitor != null) monitor;
-          size = {
-            width = 210;
-            height = 40;
-          };
+          position = "0, -20";
+          size = "210, 40";
           outline_thickness = 2;
           outer_color = "0xff${lavender}";
           inner_color = "0xff${base}";
@@ -44,6 +42,9 @@ in with lib; {
       label = map (monitor:
         with palette; {
           monitor = mkIf (monitor != null) monitor;
+          position = "0, 80";
+          halign = "center";
+          valign = "center";
           text = "$TIME";
           color = "0xff${text}";
           font_size = 36;
