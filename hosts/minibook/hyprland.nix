@@ -21,14 +21,13 @@
     suspendTimeout = 600;
     hyprctl =
       "${inputs.hyprland.packages.${pkgs.system}.hyprland.outPath}/bin/hyprctl";
-    lockCmd = "${pkgs.swaylock-effects.outPath}/bin/swaylock";
+    lockCmd = "${pkgs.hyprlock}/bin/hyprlock";
   };
-  hyprlock.enable = false;
 
-  programs.swaylock = {
+  # modules/hyprlock.nix
+  hyprlock = {
     enable = true;
-    package = pkgs.swaylock-effects;
-    settings = { clock = true; };
+    promptMonitors = [ "DSI-1" ];
   };
 
   # Touchscreen
