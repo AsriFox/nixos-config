@@ -45,6 +45,7 @@
         minibook = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
+            ./cachix.nix
             ./hosts/common.nix
             ./hosts/minibook
             {
@@ -61,6 +62,7 @@
         tower-nix = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
+            ./cachix.nix
             ./hosts/common.nix
             ./hosts/tower-nix
             {
