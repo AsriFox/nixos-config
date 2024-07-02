@@ -23,6 +23,12 @@
       fsType = "vfat";
     };
 
+  fileSystems."/run/media/asrifox/System" =
+    { device = "/dev/disk/by-uuid/928CB7088CB6E63F";
+      fsType = "ntfs";
+      options = [ "uid=1000" ];
+    };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
