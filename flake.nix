@@ -74,6 +74,11 @@
                 package = inputs.hyprland.packages.${system}.hyprland;
               };
             }
+            {
+              virtualisation.libvirtd.enable = true;
+              programs.virt-manager.enable = true;
+              users.users.asrifox.extraGroups = [ "libvirtd" ];
+            }
           ];
         };
       };
@@ -115,6 +120,14 @@
               catppuccin = {
                 enable = true;
                 flavor = "macchiato";
+              };
+            }
+            {
+              dconf.settings = {
+                "org/virt-manager/virt-manager/connections" = {
+                  autoconnect = [ "qemu:///system" ];
+                  uris = [ "qemu:///system" ];
+                };
               };
             }
           ];
