@@ -101,7 +101,7 @@ in with lib; {
         monitor = (map monitorConf cfg.monitors) ++ [ ", preferred, auto, 1" ];
 
         workspace = concatMap
-          ({ name, workspaces, ... }: map (w: "${w}, ${name}") workspaces)
+          ({ name, workspaces, ... }: map (w: "${w}, monitor:${name}") workspaces)
           cfg.monitors;
 
         windowrule = [ "float, ^(.*polkit.*)$" ];
