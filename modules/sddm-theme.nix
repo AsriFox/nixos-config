@@ -1,7 +1,6 @@
 { pkgs }:
 let
-  background =
-    "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/2560x1440.png";
+  background = /home/asrifox/Pictures/wallpapers/kawakami_rokkaku_holo_snowyspring0.jpeg;
   themeConf = pkgs.writeText "theme.conf" ''
     [General]
     Background="background.png"

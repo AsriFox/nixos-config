@@ -11,7 +11,7 @@
           name = "DP-1";
           offset = "0x0";
           workspaces = [ "1" "2" "3" "4" "5" "6" ];
-          wallpaper = "${wallpapersDir}/kawakami_rokkaku_holo_bed_brush0.jpg";
+          wallpaper = "${wallpapersDir}/kawakami_rokkaku_holo_snowyspring0.jpeg";
         }
         {
           name = "DP-2";
