@@ -20,6 +20,7 @@
       nvim = "~/.nix-profile/bin/nvim -u ~/.config/nvim/init.lua $argv";
       cat = "bat --paging never --style plain $argv";
       less = "bat --paging always $argv";
+      g = "lazygit $argv";
     };
   };
 
