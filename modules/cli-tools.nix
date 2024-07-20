@@ -24,6 +24,11 @@
     };
   };
 
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.bat = {
     enable = true;
     config = { pager = "${pkgs.less}/bin/less -FR"; };

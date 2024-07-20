@@ -15,6 +15,8 @@ in {
   config = lib.mkIf cfg.enable {
     programs.fish.catppuccin = with cfg; { inherit enable flavor; };
 
+    programs.fzf.catppuccin = with cfg; { inherit enable flavor; };
+
     programs.bat.catppuccin = with cfg; { inherit enable flavor; };
 
     programs.lazygit.catppuccin = with cfg; {
