@@ -63,15 +63,15 @@
         font-family: monospace;
         font-weight: 600;
         font-size: 14px;
-        color: @theme_fg_color;
+        color: @text;
       }
 
       window#waybar {
-        background: alpha(@theme_base_color, 0.8);
+        background: alpha(@base, 0.8);
       }
 
       tooltip {
-        background: alpha(@theme_base_color, 0.8);
+        background: alpha(@base, 0.8);
       }
 
       #clock,
@@ -90,7 +90,7 @@
       }
 
       #idle_inhibitor {
-        color: @theme_base_color;
+        color: @base;
         padding-left: 10px;
       }
     '';

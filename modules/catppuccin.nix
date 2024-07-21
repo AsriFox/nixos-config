@@ -32,6 +32,8 @@ in {
 
     programs.swaylock.catppuccin = with cfg; { inherit enable flavor; };
 
+    programs.waybar.catppuccin = with cfg; { inherit enable flavor; };
+
     qt = {
       enable = true;
       platformTheme = "qtct";

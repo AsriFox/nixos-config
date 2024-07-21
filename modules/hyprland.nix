@@ -65,6 +65,10 @@ in with lib; {
             default =
               "${pkgs.polkit-kde-agent.outPath}/libexec/polkit-kde-authentication-agent-1";
           };
+          bar = mkOption {
+            type = str;
+            default = "waybar";
+          };
           launcher = mkOption {
             type = str;
             default = "anyrun";
@@ -110,8 +114,15 @@ in with lib; {
           "float, class:(firefox), title:(Picture-in-Picture)"
           "dimaround, class:^(jetbrains-*)$"
         ];
+        layerrule = [ "blur, waybar" ];
 
-        exec-once = [ cfg.programs.polkit "hyprpaper" kwallet-init ];
+        exec-once = [
+          "hyprpaper"
+          kwallet-init
+        ] ++ (with cfg.programs; [
+          polkit
+          bar
+        ]);
 
         input = {
           kb_layout = "us,ru(typewriter)";

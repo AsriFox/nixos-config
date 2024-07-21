@@ -7,6 +7,7 @@
     ./hyprlock.nix
     ./wlogout.nix
     ./anyrun.nix
+    ./waybar.nix
     ./swaync.nix
   ];
 }
