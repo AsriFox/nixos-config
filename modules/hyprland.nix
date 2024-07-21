@@ -189,6 +189,10 @@ in with lib; {
         ]) (builtins.concatLists
           (map ({ workspaces, ... }: workspaces) cfg.monitors)));
         bindr = [ "SUPER, SUPER_L, exec, ${cfg.programs.launcher}" ];
+        bindel = [
+          ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ];
 
         bindm =
           [ "$super, mouse:272, movewindow" "$super, mouse:273, resizewindow" ];
