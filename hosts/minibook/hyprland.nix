@@ -30,6 +30,13 @@
     promptMonitors = [ "DSI-1" ];
   };
 
+  # modules/swaync.nix
+  swaync = {
+    enable = true;
+    enableMpris = false;
+    fontSize = 12.0;
+  };
+
   # Touchscreen
   wayland.windowManager.hyprland = {
     plugins = with inputs; [ hyprgrass.packages.${pkgs.system}.default ];

@@ -37,4 +37,7 @@
     enable = true;
     promptMonitors = [ "DP-1" ];
   };
+
+  # modules/swaync.nix
+  swaync.enable = true;
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, config, ... }:
 let
   # FIXME: temporary palette until catppuccin/nix is included
   palette = {
@@ -7,8 +7,15 @@ let
     crust = "181926";
     surface2 = "5b6078";
   };
-in {
-  services.swaync = {
+  cfg = config.swaync;
+in with lib; {
+  options.swaync = with types; {
+    enable = mkEnableOption "SwayNotificationCenter config";
+    enableMpris = mkOption { type = bool; default = true; };
+    fontSize = mkOption { type = float; default = 16.0; };
+  };
+
+  config.services.swaync = mkIf cfg.enable {
     enable = true;
     settings = {
       "$schema" = "${pkgs.swaynotificationcenter}/etc/xdg/swaync/configSchema.json";
@@ -18,7 +25,9 @@ in {
       control-center-margin-bottom = 4;
       control-center-margin-left = 4;
       control-center-margin-right = 4;
-      widgets = [ "volume" "mpris" "title" "dnd" "notifications" ];
+      widgets =
+        [ "volume" "title" "dnd" "notifications" ]
+        ++ (if cfg.enableMpris then [ "mpris" ] else []);
       widget-config = {
         dnd = { text = "Do not disturb"; };
         title = {
@@ -39,7 +48,7 @@ in {
     style = with palette; ''
       * {
         font-family: monospace;
-        font-size: 16px;
+        font-size: ${toString cfg.fontSize}px;
         border-radius: 4px;
         color: #${text};
       }
@@ -55,7 +64,7 @@ in {
         background: transparent;
       }
       .widget-title {
-        font-size: 24px;
+        font-size: ${toString (cfg.fontSize * 1.5)}px;
       }
       .widget-title button {
         border: none;
@@ -77,7 +86,8 @@ in {
       }
     '';
   };
-  wayland.windowManager.hyprland.settings.bind = [
+
+  config.wayland.windowManager.hyprland.settings.bind = [
     "$super, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t"
   ];
 }
