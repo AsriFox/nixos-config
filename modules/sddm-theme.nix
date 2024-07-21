@@ -1,6 +1,5 @@
-{ pkgs }:
+{ pkgs, background }:
 let
-  background = /home/asrifox/Pictures/wallpapers/kawakami_rokkaku_holo_snowyspring0.jpeg;
   themeConf = pkgs.writeText "theme.conf" ''
     [General]
     Background="background.png"

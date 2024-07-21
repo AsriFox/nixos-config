@@ -3,6 +3,10 @@
 
   networking.hostName = "minibook";
 
+  services.displayManager.sddm.theme =
+    let background = /home/asrifox/Pictures/Wallpapers/1596796944195584330.jpg;
+    in "${import ../../modules/sddm-theme.nix { inherit pkgs background; }}";
+
   services.displayManager.sddm.wayland.compositorCommand = let
     westonIni = (pkgs.formats.ini { }).generate "weston.ini" {
       output = {

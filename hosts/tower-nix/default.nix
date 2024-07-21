@@ -3,6 +3,10 @@
 
   networking.hostName = "tower-nix";
 
+  services.displayManager.sddm.theme =
+    let background = /home/asrifox/Pictures/wallpapers/kawakami_rokkaku_holo_snowyspring0.jpeg;
+    in "${import ../../modules/sddm-theme.nix { inherit pkgs background; }}";
+
   virtualisation.docker = {
     enable = true;
     rootless = {

@@ -32,7 +32,6 @@
       enable = true;
       compositor = lib.mkForce "weston";
     };
-    theme = "${import ../modules/sddm-theme.nix { inherit pkgs; }}";
   };
 
   security.rtkit.enable = true;
