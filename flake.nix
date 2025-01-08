@@ -2,32 +2,16 @@
   description = "AsriFox's personal NixOS config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     catppuccin.url = "github:catppuccin/nix";
-
-    hyprland = {
-      type = "git";
-      url = "https://github.com/hyprwm/Hyprland";
-      submodules = true;
-    };
-    hyprgrass = {
-      url = "github:horriblename/hyprgrass";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    anyrun = {
-      url = "github:anyrun-org/anyrun";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    anyrun-cliphist.url = "github:benoitlouy/anyrun-cliphist";
-
-    ags.url = "github:Aylur/ags";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
@@ -52,10 +36,6 @@
               services.displayManager.defaultSession = "plasma";
               services.desktopManager.plasma6.enable = true;
               users.users = { inherit asrifox; };
-              programs.hyprland = {
-                enable = true;
-                package = inputs.hyprland.packages.${system}.hyprland;
-              };
             }
           ];
         };
@@ -66,13 +46,9 @@
             ./hosts/common.nix
             ./hosts/tower-nix
             {
-              services.displayManager.defaultSession = "hyprland";
+              services.displayManager.defaultSession = "plasma";
               services.desktopManager.plasma6.enable = true;
               users.users = { inherit asrifox; };
-              programs.hyprland = {
-                enable = true;
-                package = inputs.hyprland.packages.${system}.hyprland;
-              };
             }
             {
               virtualisation.libvirtd.enable = true;
@@ -100,7 +76,6 @@
             (hmSettings "asrifox")
             { services.network-manager-applet.enable = true; }
             ./modules
-            ./hosts/minibook/hyprland.nix
             {
               catppuccin = {
                 enable = true;
@@ -115,7 +90,6 @@
           modules = [
             (hmSettings "asrifox")
             ./modules
-            ./hosts/tower-nix/hyprland.nix
             {
               catppuccin = {
                 enable = true;
