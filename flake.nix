@@ -36,7 +36,7 @@
               users.users.asrifox = {
                 description = "AsriFox";
                 isNormalUser = true;
-                extraGroups = [ "networkmanager" "wheel" ]
+                extraGroups = [ "networkmanager" "wheel" ];
               };
               nix.settings.trusted-users = [ "asrifox" ];
             }
@@ -52,7 +52,7 @@
               users.users.asrifox = {
                 description = "AsriFox";
                 isNormalUser = true;
-                extraGroups = [ "networkmanager" "wheel" "libvirtd" ]
+                extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
               };
               nix.settings.trusted-users = [ "asrifox" ];
             }

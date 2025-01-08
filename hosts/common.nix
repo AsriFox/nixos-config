@@ -30,7 +30,6 @@
   security.polkit.enable = true;
   security.pam.services.sddm.enableKwallet = true;
 
-  sound.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -40,7 +39,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search <package>
-  environment.systemPackages = with pkgs; [ weston kitty fish firefox ];
+  environment.systemPackages = with pkgs; [ weston fish firefox ];
 
   services.desktopManager.plasma6.enable = true;
   services.displayManager.defaultSession = "plasma";
