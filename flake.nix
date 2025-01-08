@@ -10,8 +10,6 @@
     };
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
@@ -66,12 +64,6 @@
           modules = [
             ./hosts/tower-nix/home-asrifox.nix
             ./modules
-            {
-              catppuccin = {
-                enable = true;
-                flavor = "macchiato";
-              };
-            }
           ];
           extraSpecialArgs = { inherit inputs; };
         };
@@ -80,12 +72,6 @@
           modules = [
             ./hosts/tower-nix/home-asrifox.nix
             ./modules
-            {
-              catppuccin = {
-                enable = true;
-                flavor = "macchiato";
-              };
-            }
           ];
           extraSpecialArgs = { inherit inputs; };
         };
