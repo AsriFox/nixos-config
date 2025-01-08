@@ -1,7 +1,7 @@
 { lib, pkgs, ... }: {
   nix.settings = {
     experimental-features = [ "flakes" "nix-command" ];
-    trusted-users = [ "root" "asrifox" ];
+    trusted-users = [ "root" ];
   };
   nixpkgs.config.allowUnfree = true;
 
@@ -26,21 +26,11 @@
     LC_TIME = "ru_RU.UTF-8";
   };
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland = {
-      enable = true;
-      compositor = lib.mkForce "weston";
-    };
-  };
-
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.pam.services.sddm.enableKwallet = true;
-  security.pam.services.hyprlock = { };
 
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -51,6 +41,16 @@
   # List packages installed in system profile. To search, run:
   # $ nix search <package>
   environment.systemPackages = with pkgs; [ weston kitty fish firefox ];
+
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.defaultSession = "plasma";
+  services.displayManager.sddm = {
+    enable = true;
+    wayland = {
+      enable = true;
+      compositor = lib.mkForce "weston";
+    };
+  };
 
   fonts = {
     packages = [ (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
@@ -81,7 +81,4 @@
       set smartcase
     '';
   };
-
-  # https://search.nixos.org/options?query=stateVersion&show=system.stateVersion
-  system.stateVersion = "23.11";
 }

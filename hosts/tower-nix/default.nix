@@ -7,6 +7,9 @@
     let background = /home/asrifox/Pictures/wallpapers/kawakami_rokkaku_holo_snowyspring0.jpeg;
     in "${import ../../modules/sddm-theme.nix { inherit pkgs background; }}";
 
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   virtualisation.docker = {
     enable = true;
     rootless = {
@@ -24,4 +27,7 @@
       args = [ "--prefer-output" "DP-1" ];
     };
   };
+
+  # https://search.nixos.org/options?query=stateVersion&show=system.stateVersion
+  system.stateVersion = "23.11";
 }

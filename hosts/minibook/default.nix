@@ -27,4 +27,7 @@
       };
     };
   in "${lib.getExe pkgs.weston} --shell=kiosk -c ${westonIni}";
+
+  # https://search.nixos.org/options?query=stateVersion&show=system.stateVersion
+  system.stateVersion = "23.11";
 }

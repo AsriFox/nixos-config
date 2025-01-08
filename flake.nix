@@ -33,9 +33,12 @@
             ./hosts/common.nix
             ./hosts/minibook
             {
-              services.displayManager.defaultSession = "plasma";
-              services.desktopManager.plasma6.enable = true;
-              users.users = { inherit asrifox; };
+              users.users.asrifox = {
+                description = "AsriFox";
+                isNormalUser = true;
+                extraGroups = [ "networkmanager" "wheel" ]
+              };
+              nix.settings.trusted-users = [ "asrifox" ];
             }
           ];
         };
@@ -46,35 +49,22 @@
             ./hosts/common.nix
             ./hosts/tower-nix
             {
-              services.displayManager.defaultSession = "plasma";
-              services.desktopManager.plasma6.enable = true;
-              users.users = { inherit asrifox; };
-            }
-            {
-              virtualisation.libvirtd.enable = true;
-              programs.virt-manager.enable = true;
-              users.users.asrifox.extraGroups = [ "libvirtd" ];
+              users.users.asrifox = {
+                description = "AsriFox";
+                isNormalUser = true;
+                extraGroups = [ "networkmanager" "wheel" "libvirtd" ]
+              };
+              nix.settings.trusted-users = [ "asrifox" ];
             }
           ];
         };
       };
 
-      homeConfigurations = let
-        hmSettings = username: {
-          home = {
-            inherit username;
-            homeDirectory = "/home/${username}";
-            stateVersion = "23.11";
-          };
-          xdg.enable = true;
-          programs.home-manager.enable = true;
-        };
-      in {
+      homeConfigurations = {
         "asrifox@minibook" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            (hmSettings "asrifox")
-            { services.network-manager-applet.enable = true; }
+            ./hosts/tower-nix/home-asrifox.nix
             ./modules
             {
               catppuccin = {
@@ -88,20 +78,12 @@
         "asrifox@tower-nix" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            (hmSettings "asrifox")
+            ./hosts/tower-nix/home-asrifox.nix
             ./modules
             {
               catppuccin = {
                 enable = true;
                 flavor = "macchiato";
-              };
-            }
-            {
-              dconf.settings = {
-                "org/virt-manager/virt-manager/connections" = {
-                  autoconnect = [ "qemu:///system" ];
-                  uris = [ "qemu:///system" ];
-                };
               };
             }
           ];
