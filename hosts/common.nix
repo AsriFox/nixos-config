@@ -47,7 +47,7 @@
     enable = true;
     wayland = {
       enable = true;
-      compositor = lib.mkForce "weston";
+      compositor = "kwin";
     };
   };
 
